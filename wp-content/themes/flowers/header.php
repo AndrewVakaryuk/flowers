@@ -27,7 +27,7 @@
         </div>
         <!-- /.col-lg-6 -->
         <div class="col-lg-3 col-md-5 header-contacts">
-          <a href="tel:+78006548745" class="header-phone">8 (800) 654-87-45</a>
+          <a href="tel:<?php the_field('phone') ?>" class="header-phone"><?php the_field('phone') ?></a>
           <span class="header-info">Звонок по России бесплатный</span>
           <a data-fancybox data-src="#modal" href="javascript:;" class="callback">Заказать звонок</a>
         </div>

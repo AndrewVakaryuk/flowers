@@ -2,8 +2,8 @@
 
 <section class="hero">
   <div class="container">
-    <h1 class="hero-title">Эксклюзивные цветы и букеты flowers Shop</h1>
-    <p class="hero-description">первая в россии эксклюзивная доставка цветов для людей, которые ценят <b>уникальность</b></p>
+    <h1 class="hero-title"><?php the_field('main_title') ?></h1>
+    <p class="hero-description"><?php the_field('main_subtitle') ?></p>
 
     <!-- Слайдер с цветами -->
     <div class="swiper-container flowers-slider">
@@ -11,25 +11,25 @@
       <div class="swiper-wrapper">
         <!-- Слайды -->
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-2.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-2.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-3.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-3.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-4.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-4.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-5.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-5.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-6.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-6.png" alt="rose" class="slide-image">
         </div>
         <div class="swiper-slide">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-3.png" alt="rose" class="slide-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-3.png" alt="rose" class="slide-image">
         </div>
       </div>
 
@@ -56,32 +56,40 @@
       <!-- обертка слайдов -->
       <div class="swiper-wrapper">
         <!-- слайды -->
-        <div class="swiper-slide review-slide d-flex flex-column flex-md-row align-items-center">
-          <div class="review-image d-flex align-items-center justify-content-center flex-column review-image-1">
-            <span class="review-name">Алиса Иванова</span>
-            <span class="review-city">г. Ноябрьск</span>
-          </div>
-          <div class="review-text">
-            <p class="review">
-              Я очень довольна таким отношением к делу. Обслужили просто превосходно, я заказывала по телефону — так подробно мне всё объяснили, помогли выбрать замечательный букет, и привезли всё вовремя, букет был очень красивый, он очень понравился, спасибо вам огромное.
-            </p>
-            <a href="javascript:;" id="review-1" class="review-link">Посмотреть фотографии букета</a>
-          </div>
-        </div>
-        <!-- ./swiper-slide -->
-        <div class="swiper-slide review-slide d-flex flex-column flex-md-row align-items-center">
-          <div class="review-image d-flex align-items-center justify-content-center flex-column review-image-2">
-            <span class="review-name">Алиса Иванова</span>
-            <span class="review-city">г. Ноябрьск</span>
-          </div>
-          <div class="review-text">
-            <p class="review">
-              Я очень довольна таким отношением к делу. Обслужили просто превосходно, я заказывала по телефону — так подробно мне всё объяснили, помогли выбрать замечательный букет, и привезли всё вовремя, букет был очень красивый, он очень понравился, спасибо вам огромное.
-            </p>
-            <a href="#" class="review-link">Посмотреть фотографии букета</a>
-          </div>
-        </div>
-        <!-- ./swiper-slide -->
+        <?php
+        global $post;
+
+        $query = new WP_Query([
+          'posts_per_page' => 5,
+          'post_type'      => 'reviews',
+        ]);
+
+        if ($query->have_posts()) {
+          while ($query->have_posts()) {
+            $query->the_post();
+        ?>
+            <div class="swiper-slide review-slide d-flex flex-column flex-md-row align-items-center">
+              <div class="review-image d-flex align-items-center justify-content-center flex-column">
+                <?php the_post_thumbnail('small') ?>
+                <span class="review-name"><?php the_title(); ?></span>
+                <span class="review-city"><?php the_field('town') ?></span>
+              </div>
+              <div class="review-text">
+                <p class="review">
+                  <?php the_content(); ?>
+                </p>
+                <a href="javascript:;" id="review-1" class="review-link">Посмотреть фотографии букета</a>
+              </div>
+            </div>
+        <?php
+          }
+        } else {
+          // Постов не найдено
+        }
+
+        wp_reset_postdata(); // Сбрасываем $post
+        ?>
+
       </div>
       <!-- ./swiper-wrapper -->
 
@@ -101,15 +109,16 @@
     <div class="row">
       <div class="col-md-4 mb-5 mb-md-0">
         <div class="advantages-wrapper">
-          <img src="<?php echo get_template_directory_uri()?>/img/advantages/advantages-1.png" alt="Только прямые поставки цветов из Голландии" class="advantages-image">
+          <img src="<?php the_field('advantages-img-1') ?>" alt="Только прямые поставки цветов из Голландии" class="advantages-image">
+
         </div>
         <!-- /.advantage-wrapper -->
-        <h3 class="advantages-title">Только прямые поставки цветов из&nbsp;Голландии</h3>
+        <h3 class="advantages-title"><?php the_field('advantages-1') ?></h3>
       </div>
       <!-- /.col -->
       <div class="col-md-4 mb-5 mb-md-0">
         <div class="advantages-wrapper">
-          <img src="<?php echo get_template_directory_uri()?>/img/advantages/advantages-2.png" alt="Наши флористы имеют 10 летний стаж работы" class="advantages-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/advantages/advantages-2.png" alt="Наши флористы имеют 10 летний стаж работы" class="advantages-image">
         </div>
         <!-- /.advantages-wrapper -->
         <h3 class="advantages-title">Наши флористы имеют 10 летний стаж работы</h3>
@@ -117,7 +126,7 @@
       <!-- /.col -->
       <div class="col-md-4 mb-5 mb-md-0">
         <div class="advantages-wrapper">
-          <img src="<?php echo get_template_directory_uri()?>/img/advantages/advantages-3.png" alt="Все цветы вручную отбираются нашими флористами" class="advantages-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/advantages/advantages-3.png" alt="Все цветы вручную отбираются нашими флористами" class="advantages-image">
         </div>
         <!-- /.advantages-wrapper -->
         <h3 class="advantages-title">Все цветы вручную отбираются нашими флористами</h3>
@@ -137,7 +146,7 @@
     <div class="row">
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -177,7 +186,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -217,7 +226,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -257,7 +266,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -297,7 +306,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -337,7 +346,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -377,7 +386,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -417,7 +426,7 @@
 
       <div class="col-lg-3 col-md-6">
         <div class="card">
-          <img src="<?php echo get_template_directory_uri()?>/img/flowers/flower-1.png" alt="rose" class="card-image">
+          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
           <h3 class="card-title">Розы</h3>
           <span class="card-label">Выберите цвет:</span>
 
@@ -468,7 +477,7 @@
     <h2 class="section-title offer-title">Остались вопросы?</h2>
     <a href="#" class="offer-link">Закажите звонок нашего флориста!</a>
     <span class="offer-label">или позвоните по телефону</span>
-    <a href="tel:+78006548745" class="offer-phone">8 (800) 654-87-45</a>
+    <a href="tel:<?php the_field('phone') ?>" class="offer-phone"><?php the_field('phone') ?></a>
   </div>
   <!-- /.container -->
 </section>
