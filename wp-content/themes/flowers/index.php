@@ -144,324 +144,62 @@
     <p class="section-description">Выберите желаемые цветы и наши флористы их оформят и доставят лично в руки!</p>
 
     <div class="row">
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
+      <?php
+      global $post;
 
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="rose-white"></label>
-            <input class="color-input" type="radio" name="color" id="rose-white" value="white">
+      $query = new WP_Query([
+        'posts_per_page' => 8,
+        'post_type'        => 'flowers',
+      ]);
 
-            <label class="color-label biege" for="rose-biege"></label>
-            <input class="color-input" type="radio" name="color" id="rose-biege" value="biege">
+      if ($query->have_posts()) {
+        while ($query->have_posts()) {
+          $query->the_post();
+      ?>
+          <div class="col-lg-3 col-md-6">
+            <form action="<?php echo admin_url('admin-ajax.php'); ?>" class="card">
+              <input type="hidden" name="action" value="form">
+              <input type="hidden" name="flower" value="<?php the_title(); ?>">
+              <img src="<?php the_field('flower_image') ?>" alt="rose" class="card-image">
+              <h3 class="card-title"><?php the_title(); ?></h3>
+              <span class="card-label">Выберите цвет:</span>
 
-            <label class="color-label pink" for="rose-pink"></label>
-            <input class="color-input" type="radio" name="color" id="rose-pink" value="pink">
+              <div class="colors d-flex align-items-center justify-content-between">
 
-            <label class="color-label red" for="rose-red"></label>
-            <input class="color-input" type="radio" name="color" id="rose-red" value="red">
+                <?php $colors = get_field('colors');
+                foreach ($colors as $key => $value) {
+                ?>
+                  <label class="color-label <?php echo $value ?>" for="rose-<?php echo $value ?>"></label>
+                  <input class="color-input" type="radio" name="color" id="rose-<?php echo $value ?>" value="<?php echo $value ?>">
+                <?php
+                }
+                ?>
+              </div>
+              <!-- /.colors -->
 
-            <label class="color-label blue" for="rose-blue"></label>
-            <input class="color-input" type="radio" name="color" id="rose-blue" value="blue">
+              <span class="card-label">Количество:</span>
+
+              <div class="counter-group d-flex justify-content-center align-items-center">
+                <button class="counter-button counter-button-minus" type="button">-</button>
+                <input type="text" name="counter" class="counter-input" value="1">
+                <button class="counter-button counter-button-plus" type="button">+</button>
+              </div>
+              <!-- /.counter-group -->
+
+              <button class="button card-button" type="submit">Оформить заказ</button>
+
+            </form>
+            <!-- /.card -->
           </div>
-          <!-- /.colors -->
+      <?php
+        }
+      } else {
+        // Постов не найдено
+      }
+
+      wp_reset_postdata(); // Сбрасываем $post
+      ?>
 
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col-lg-3 col-md-6 -->
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card">
-          <img src="<?php echo get_template_directory_uri() ?>/img/flowers/flower-1.png" alt="rose" class="card-image">
-          <h3 class="card-title">Розы</h3>
-          <span class="card-label">Выберите цвет:</span>
-
-          <div class="colors d-flex align-items-center justify-content-between">
-            <label class="color-label white" for="white"></label>
-            <input class="color-input" type="radio" name="color" id="white" value="white">
-
-            <label class="color-label biege" for="biege"></label>
-            <input class="color-input" type="radio" name="color" id="biege" value="biege">
-
-            <label class="color-label pink" for="pink"></label>
-            <input class="color-input" type="radio" name="color" id="pink" value="pink">
-
-            <label class="color-label red" for="red"></label>
-            <input class="color-input" type="radio" name="color" id="red" value="red">
-
-            <label class="color-label blue" for="blue"></label>
-            <input class="color-input" type="radio" name="color" id="blue" value="blue">
-          </div>
-          <!-- /.colors -->
-
-          <span class="card-label">Количество:</span>
-
-          <div class="counter-group d-flex justify-content-center align-items-center">
-            <button class="counter-button">-</button>
-            <input type="text" class="counter-input" value="1">
-            <button class="counter-button">+</button>
-          </div>
-          <!-- /.counter-group -->
-
-          <button class="button card-button">В корзину</button>
-
-        </div>
-        <!-- /.card -->
-      </div>
       <!-- /.col-lg-3 col-md-6 -->
     </div>
     <!-- /.row -->

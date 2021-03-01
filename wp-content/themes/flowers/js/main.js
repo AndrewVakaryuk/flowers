@@ -38,36 +38,35 @@ $(document).ready(function () {
       prevEl: '.swiper-button-prev',
     },
   });
-  $("#review-1").on('click', function() {
+  
+  var counterButtonPlus = $('.counter-button-plus');
+  var counterButtonMinus = $('.counter-button-minus');
+  var counter = 1;
 
-  $.fancybox.open([
-    {
-      src  : 'https://source.unsplash.com/IvfoDk30JnI/1500x1000',
-      opts : {
-        caption : 'First caption',
-        thumb   : 'https://source.unsplash.com/IvfoDk30JnI/240x160'
-      }
-    },
-    {
-      src  : 'https://source.unsplash.com/0JYgd2QuMfw/1500x1000',
-      opts : {
-        caption : 'Second caption',
-        thumb   : 'https://source.unsplash.com/0JYgd2QuMfw/240x160'
-      }
-    },
-    {
-      src  : 'https://source.unsplash.com/0JYgd2QuMfw/1500x1000',
-      opts : {
-        caption : 'Second caption',
-        thumb   : 'https://source.unsplash.com/0JYgd2QuMfw/240x160'
-      }
-    }
-  ], {
-    loop : true,
-    thumbs : {
-      autoStart : true
+  counterButtonPlus.on('click', function () {
+    if (counter < 10) {
+      counter++;
+      $(this).parent().find('input').val(counter);
     }
   });
 
-});
+  counterButtonMinus.on('click', function () {
+    if (counter > 1) {
+      counter--;
+      $(this).parent().find('input').val(counter);
+    }
+  });
+
+  $('.card').on('submit', function (event) {
+    event.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function (response) {
+        $.fancybox.open('<div class="message"><h2>Order is confirmed!</h2><p>You are awesome!</p></div>');
+      }
+    });
+  });
+
 });

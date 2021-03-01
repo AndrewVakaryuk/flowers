@@ -53,4 +53,46 @@ function flowers_init()
     'menu_position'      => null,
     'supports'           => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
   ));
+
+  register_post_type('flowers', array(
+    'labels'             => array(
+      'name'               => 'Букеты', // Основное название типа записи
+      'singular_name'      => 'Букет', // отдельное название записи типа Book
+      'add_new'            => 'Добавить новый',
+      'add_new_item'       => 'Добавить новый букет',
+      'edit_item'          => 'Редактировать букет',
+      'new_item'           => 'Новый букет',
+      'view_item'          => 'Посмотреть букет',
+      'search_items'       => 'Найти букет',
+      'not_found'          => 'Букета не найдено',
+      'not_found_in_trash' => 'Букетов не найдено',
+      'parent_item_colon'  => '',
+      'menu_name'          => 'Букеты'
+
+    ),
+    'public'             => true,
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'menu_icon'          => 'dashicons-store',
+    'query_var'          => true,
+    'rewrite'            => true,
+    'capability_type'    => 'post',
+    'has_archive'        => true,
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
+  ));
+}
+
+add_action('wp_ajax_form', 'submit_form');
+add_action('wp_ajax_nopriv_form', 'submit_form');
+
+function submit_form() 
+{
+  $data = file_get_contents('php://input');
+  $data_str = parse_str($data, $output);
+  foreach ($output as $key => $value) {
+    echo $key . ' - ' . $value . PHP_EOL;
+  }
 }

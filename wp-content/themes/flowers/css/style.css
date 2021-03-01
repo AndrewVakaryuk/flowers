@@ -371,6 +371,9 @@ body {
 .modal {
   max-width: 450px;
 }
+.message {
+  color: #000;
+}
 @media (max-width: 768px) {
   .header {
     text-align: center;
